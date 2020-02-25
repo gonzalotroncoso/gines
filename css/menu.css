@@ -1,0 +1,15 @@
+/* CSS used here will be applied after bootstrap.css 
+Ref: http://www.bootply.com/d8RMa03wW7
+*/
+html,body {
+    height:100%;
+    padding-top:40px;
+   
+     background-size: cover;
+}
+
+
+section {
+  height:calc(90% - 50px);
+}
+
