@@ -1,1 +1,1 @@
-# gines
+# Sistemas de gestión contable.
