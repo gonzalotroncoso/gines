@@ -39,6 +39,8 @@ $tab = '                                                                    ';
 
 $total = 0;
 
+//ATER, MUNICIPALIDAD, EMPLEADOR, SINDICATO, SICORE Y GANANCIAS.
+
 		if($pago['monotributo']>0){
 		$total = $total+$pago['monotributo'];
 		$pdf->Ln(3);
@@ -60,8 +62,52 @@ $total = 0;
 		$pdf->Cell(0,10,utf8_decode($tabc.'Autonomo: '."$".$pago['autonomo']),0,2,'L');
 		}
 
+		if($pago['ater']>0){
+		$total = $total+$pago['ater'];
+		$pdf->Ln(3);
+		$pdf->SetFont('Arial','B',12);
+		$pdf->Cell(0,10,utf8_decode($tabc.'Ater: '."$".$pago['ater']),0,2,'L');
+		}
+
+		if($pago['municipalidad']>0){
+		$total = $total+$pago['municipalidad'];
+		$pdf->Ln(3);
+		$pdf->SetFont('Arial','B',12);
+		$pdf->Cell(0,10,utf8_decode($tabc.'Municipalidad: '."$".$pago['municipalidad']),0,2,'L');
+		}
+
+		if($pago['empleador']>0){
+		$total = $total+$pago['empleador'];
+		$pdf->Ln(3);
+		$pdf->SetFont('Arial','B',12);
+		$pdf->Cell(0,10,utf8_decode($tabc.'Empleador: '."$".$pago['empleador']),0,2,'L');
+		}
+
+			if($pago['sindicato']>0){
+		$total = $total+$pago['sindicato'];
+		$pdf->Ln(3);
+		$pdf->SetFont('Arial','B',12);
+		$pdf->Cell(0,10,utf8_decode($tabc.'Sindicato: '."$".$pago['sindicato']),0,2,'L');
+		}
+
+			if($pago['sicore']>0){
+		$total = $total+$pago['sicore'];
+		$pdf->Ln(3);
+		$pdf->SetFont('Arial','B',12);
+		$pdf->Cell(0,10,utf8_decode($tabc.'Sicore: '."$".$pago['sicore']),0,2,'L');
+		}
+
+			if($pago['ganancias']>0){
+		$total = $total+$pago['ganancias'];
+		$pdf->Ln(3);
+		$pdf->SetFont('Arial','B',12);
+		$pdf->Cell(0,10,utf8_decode($tabc.'Ganancias: '."$".$pago['ganancias']),0,2,'L');
+		}
+
+
+
 		if($pago['caja']>0){
-		$total = $total+$pago['autonomo'];
+		$total = $total+$pago['caja'];
 		$pdf->Ln(3);
 		$pdf->SetFont('Arial','B',12);
 		$pdf->Cell(0,10,utf8_decode($tabc.'Caja: '."$".$pago['caja']),0,2,'L');

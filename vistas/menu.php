@@ -33,7 +33,7 @@
 
           <li> <a href="clientes.php"><span class="glyphicon glyphicon-user"></span> Inicio  </a></li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> Clientes <span class="caret"></span></a>
+            <a href="clientes.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> Clientes <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="altaCliente.php">Alta</a></li>
               <li><a href="bajaCliente.php">Baja</a></li>
@@ -42,13 +42,13 @@
             </ul>
 
             </li>
-
+             <li> <a href="ingresosBrutos.php"><span class="glyphicon glyphicon-list-alt"></span> Ingresos Anuales  </a></li>
             <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-list-alt"></span> Monotributo <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="verMonotributista.php">Ver datos monotributistas</a></li>
-              <li><a href="nuevoMonotributo.php">Cargar Periodo</a></li>
-              <li><a href="MesMonotributo.php">Cargar Mes</a></li>              
+            <!--  <li><a href="nuevoMonotributo.php">Cargar Ingreso Bruto Anual</a></li>-->
+             <!-- <li><a href="MesMonotributo.php">Cargar Mes</a></li>              -->
               <li><a href="editarFechaMono.php">Modificar monto de mes</a></li>              
               <li><a href="recategorizacion.php">Recategorizar</a></li>              
             </ul>        
@@ -57,18 +57,26 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-list-alt"></span> Liquidacion Mensual<span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="liquidacionMensual.php">Agregar Liquidacion</a></li>
-              <li><a href="verLiquidacion.php">Ver Liquidación</a></li>
+              <li><a href="liquidacionMensual.php">Cargar Liquidacion</a></li>
+              <li><a href="verLiquidacion.php">Ver/Modificar Liquidación</a></li>
               
               
             </ul>        
           </li>
 
+           <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-list-alt"></span> Banco<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li> <a href="pagos.php">Pagos </a></li>
+              <li> <a href="morosos.php"></span> Deudas  </a></li>
+              
+              
+            </ul>        
+          </li>
            
      
-
-      <li> <a href="pagos.php"><span class="glyphicon glyphicon-user"></span> Pagos  </a></li>
-        <li> <a href="morosos.php"><span class="glyphicon glyphicon-user"></span> Deudas  </a></li>
+     
+      
         <?php
       if($_SESSION['rango']=="admin"):
          ?>
@@ -82,10 +90,13 @@
         
           
           <li class="dropdown" >
-            <a href="#" style="color: blue"  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> Usuario: <?php echo $_SESSION['usuario']; ?>  <span class="caret"></span></a>
+            <a href="#" style="color: blue"  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <?php echo $_SESSION['usuario']; ?>  <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li> <a style="color: blue" href="../procesos/salir.php"><span class="glyphicon glyphicon-off"></span> Salir</a></li>
-              
+              <li> <a href="#" id="exportar">Exportar base de datos</a></li>
+               <li> <a href="">Vaciar base de datos</a></li>
+               <li> <a href="cargaTablaMonotributo.php">Modificar tabla de monotributo</a></li>
+               <li> <a href="">Modificar tabla de pago simplificado</a></li>              
             </ul>
           </li>
         </ul>
@@ -107,4 +118,22 @@
 
 </body>
 </html>
+<script type="text/javascript">
+  $('#exportar').click(function(){
+    alertify.confirm("Desea exportar la base de datos",
+      function (e) {
+              if (e) {
+                $.ajax({
+      url:"../procesos/clientes/recTodos.php",
+      success:function(r){
+        if (r == 1) {
+                    alertify.success('Base de datos guardada en la carpeta del sistema');
+                    }
+              }
+            })
+          }
+        })
+      })      
+
+</script>
 

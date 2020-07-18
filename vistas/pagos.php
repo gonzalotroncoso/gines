@@ -68,6 +68,7 @@ $dbh = $c->conexion();
 	    						<th class="active">Tipo Persona</th>
 	    						<th class="active">Estado</th>
 	    						<th class="active">Cuit</th>
+	    						<th class="active">Afip</th>
 	    						
 	    					</thead>
 	    					<tbody  style ="text-align: center;" >
@@ -85,7 +86,7 @@ $dbh = $c->conexion();
 		<!-- INICIO BASE IMPONIBLE -->
 		<div class="col-sm-6">
 					<div class="panel panel-primary">
-	    				<div class="panel-heading">Base Imponible</div>
+	    				<div class="panel-heading">Impuesto a Pagar</div>
 	    				<div class="panel-body">
 	    					<label class="col-sm-4">Monotributo</label>    			    			    			
 	    		    		  <div class="col-sm-8">
@@ -98,8 +99,12 @@ $dbh = $c->conexion();
 	    		      			</div>
 
 	    		      <label class="col-sm-4" >Municipalidad</label>		    			    			    
-	    		      <div class="col-sm-8"><input class="form-control" type="text" name="municipalidad" id="municipalidad"onKeyUp="cal()"></div>	
-
+	    		      <div class="col-sm-8"><input class="form-control" type="text" name="municipalidad" id="municipalidad"onKeyUp="cal()"></div>
+	    		      
+	    		      <label class="col-sm-4">IVA</label>    			    			    			    
+	    				<div class="col-sm-8">
+	    		      		<input class="form-control" type="text" name="iva" id="iva"onKeyUp="cal()"><br>	    			
+	    		      		</div>
 	    				</div>
 	    			</div>	
 
@@ -136,10 +141,7 @@ $dbh = $c->conexion();
 				<div class="panel panel-primary">
 	    			<div class="panel-heading">Monto Retenido</div>
 	    			<div class="panel-body">
-	    				<label class="col-sm-1">IVA</label>    			    			    			    
-	    					<div class="col-sm-5">
-	    		      		<input class="form-control" type="text" name="iva" id="iva"onKeyUp="cal()"><br>	    			
-	    		      		</div>
+	    				
 
 	    		      	<label class="col-sm-1" >Sicore</label>    			    			    			    
 	    		      	<div class="col-sm-5">
@@ -273,7 +275,9 @@ $dbh = $c->conexion();
 	   
 </body>
 </html>	
-<script src="../js/pagos.js"></script>
+<script src="../js/pagos.js">
+	
+</script>
 <?php 
 }else{
   header("location:index.php");

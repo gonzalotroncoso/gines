@@ -21,7 +21,7 @@ $stmt1->execute();
 </head>
 <body>
 	<div class="container">
-		<center><b>	<h3>Monotributistas</h3></b></center>
+	<div class="well">	<center><b>	<h1>MONOTRIBUTISTAS</h1></b></center></div>
 		<div class="row">
 			<div class="col-sm-12">
 				         <select class="form-control input-sm" id="id_cliente" name="id_cliente">
@@ -38,7 +38,7 @@ $stmt1->execute();
 		<hr/>
 		<div class="scrollable">
 		<div class="table-responsive-sm">
-<table class="table table-responsive table-hover table-condensed table-border" style ="text-align: center;" id="tablaCliente">
+<table class="table table-responsive table-hover table-condensed table-border" style ="text-align: center;" id="tablaCliente" style="text-align:center">
 	<thead class="thead-dark">
 	
 		<th>Nro. cliente</th>
@@ -117,8 +117,8 @@ $stmt1->execute();
 						<table name="tablajson" id="tablajson" class="table table-responsive table-hover table-condensed table-border" style ="text-align: center;">
 						<thead class="thead-dark" >
 						<tr>
-		<th>Mes</th>
-		<th>Monto</th>		
+		<th style="text-align: center">Mes</th>
+		<th style="text-align: center">Monto</th>		
 
 	</tr>
 	</thead>
@@ -179,8 +179,7 @@ $stmt1->execute();
 
 <script type="text/javascript">
 	$('#id_cliente').change(function(){
-
-		if ($('#id_cliente').val()==0){
+		if ($('#id_cliente').val()==0){							
 			$.ajax({
 			type:'POST',			
 			url:'../procesos/clientes/todoMono.php',			
@@ -219,13 +218,14 @@ $stmt1->execute();
 		})
 				}
 	else{
-		var id = $('#id_cliente').val();
+		var id = $('#id_cliente').val();		
+		console.log(id);
 		$.ajax({
 			type:'POST',
 			data:'id='+id,
 			url:'../procesos/clientes/dataMono.php',
 			success:function(r){
-			
+				console.log(r);
 				data = jQuery.parseJSON(r);
 				var newRow;
 				var impuesto;

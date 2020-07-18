@@ -34,10 +34,10 @@ if($_SESSION ['rango']!='admin'){ ?>
   <div class="col-sm-12">
      <div class="table-responsive-sm ">
 
-<table id="tablaCliente" class="table table-bordered table-responsive table-hover table-condensed table-border " style ="text-align: center;">
+<table id="tablaCliente" class="table table-bordered table-responsive table-hover table-condensed table-border center " style ="text-align: center;">
   <thead class="active">
   <tr>
-    <th class="active">Numero de cliente</th>
+    <th class="active" id="numero">Numero de cliente</th>
     <th class="active">Denominación</th>
     <th class="active">Estado</th>
     <th class="active">CUIT</th>    
@@ -55,7 +55,7 @@ $stmt->bindValue('id',$_SESSION ['iduser'],PDO::PARAM_INT);
 $stmt->execute();
   while ($unaFila = $stmt->fetch()): ?>
   <tr>
-    <td><?php echo $unaFila['nro_cliente'] ?></td>
+    <td id="id_cliente_tabla"><?php echo $unaFila['nro_cliente'] ?></td>
     <td><?php echo utf8_decode($unaFila['denominacion']) ?></td>
     <td><?php echo $unaFila['estado']?></td>  
     <?php if($unaFila['tipo_persona']=="fisica"){ ?>
@@ -102,45 +102,133 @@ $stmt->execute();
 		<div class="row">		
 			<div class="col-sm-12">
 
-		  <div class="well"><b><h3>Clientes</h3></b></div>
+		  <center><div class="well"><b><h3>Clientes</h3></b></div></center>
 
 			</div>			
 		</div>
-		<div class="row">
-      <div class="col-sm-12">
-        <label class="col-sm-2">Buscar Cliente</label>
-          <div class="col-sm-4">
-            <select class="form-control input-sm" id="id_cliente" name="id_cliente">
-          <option value="0"> Seleccionar cliente</option>
-            
-            <?php    while ($cliente = $stmt->fetch()):            ?>
-              
-              <option value="<?php echo $cliente['id_cliente'] ?>"> <?php echo (utf8_decode($cliente['denominacion']))?></option>
-              <?php endwhile; ?>
-            </select> 
-            </div> 
-              <label class="col-sm-2">Buscar por:</label>
-            <div class="col-sm-4">
-              <select class="form-control input-sm" id="chkcliente" name="chkcliente">
-                  <option value =0>Todos</option>
-                  <option value =1>Activos</option>
-                  <option value =2>Inactivos</option>
-               </select>   
-            </div>    
-          </div>
-       </div>   
+
+      <div class="panel panel-primary">
+                <div class="panel-heading">Filtros</div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <label class="col-sm-2">Clientes</label>
+                      <div class="col-sm-6">
+                        <select style="margin: 1px;" class="form-control input-sm" id="id_cliente" name="id_cliente">
+                            <option value="0"> Todos</option>            
+                              <?php while ($cliente = $stmt->fetch()):?>             
+                            <option value="<?php echo $cliente['id_cliente'] ?>"> <?php echo (utf8_decode($cliente['denominacion']))?></option>
+                              <?php endwhile; ?>
+                        </select> 
+                      </div>
+                       </div>
+                       <hr> 
+                       <form id="ffiltros" method="post">
+                        <div class="row">
+                          <label class="col-sm-2">Condicion Tributaria</label>
+                      <div class="col-sm-4">
+                        <select  style="margin: 1px;" class="form-control input-sm" id="condicion" name="chkcliente">
+                            <option value =0 >Selecctionar Condicion Tributaria</option>
+                            <option value =1 >Monotributo</option>
+                            <option value =2>Responsable Inscripto</option>
+                            <option value =3>Exento</option>
+                            <option value =4>No Inscripto</option>                    
+                        </select>   
+                      </div> 
+                        <label class="col-sm-2">Seleccionar Categoria</label>
+                      <div class="col-sm-4">
+                        <select  style="margin: 1px;" class="form-control input-sm" id="mono" name="chkcliente">   
+                            <option value="0">Todas</option>                         
+                            <option value =A>Categoria A</option>
+                            <option value =B>Categoria B</option>
+                            <option value =C>Categoria C</option>
+                            <option value =D>Categoria D</option>
+                            <option value =E>Categoria E</option>
+                            <option value =F>Categoria F</option>
+                            <option value =G>Categoria G</option>
+                            <option value =H>Categoria H</option>
+                            <option value =I>Categoria I</option>
+                            <option value =J>Categoria J</option>
+                            <option value =K>Categoria K</option>                            
+                        </select>   
+                      </div>    
+
+                        </div>
+                      <div class="row"> 
+                      <label class="col-sm-2">Estado</label>
+                      <div class="col-sm-4">
+                        <select style="margin: 1px;" class="form-control input-sm" id="estadof" name="chkcliente">                           
+                            <option value =1>Activos</option>
+                            <option value =2>Inactivos</option>
+                        </select>   
+                      </div> 
+                    
+                    
+                       <label class="col-sm-2">Tipo de Persona</label>
+                      <div class="col-sm-4">
+                        <select  style="margin: 1px;" class="form-control input-sm" id="tipof" name="chkcliente">
+                            <option value =0>Fisica</option>
+                            <option value =1>Juridica</option>                            
+                        </select>   
+                      </div> 
+                      </div>
+                      <div class="row"> 
+                      <label class="col-sm-2">Profesiones Liberales</label>
+                      <div class="col-sm-4">
+                        <select  style="margin: 1px;" class="form-control input-sm" id="liberal" name="chkcliente">
+                            <option value =0>Seleccionar</option>
+                            <option value =1>Regimen Simplificado</option>
+                            <option value =2>Regimen General</option>                            
+                        </select>   
+                      </div> 
+                      <label class="col-sm-2">Ingresos Brutos</label>
+                      <div class="col-sm-4">
+                        <select  style="margin: 1px;" class="form-control input-sm" id="bruto" name="chkcliente">
+                          <option value =0>Seleccionar</option>
+                            <option value =1>Regimen Simplificado</option>
+                            <option value =2>Regimen General</option>                            
+                        </select>   
+                      </div>  
+                        </div> 
+                      <div class="row">
+                        <label class="col-sm-2">Riesgo</label>
+                        <div class="col-md-4">
+                          <select  style="margin: 1px;" class="form-control input-sm" id="riesgo" name="chkcliente">
+                          <option value =0>Seleccionar</option>
+                            <option value =1>1</option>
+                            <option value =2>2</option>                            
+                            <option value =3>3</option>                            
+                        </select>  
+                        </div>
+                        <div class="col-md-3" style="display: flex; justify-content: flex-end;">                     
+                          <button type="button" id="btn_filtro" class="btn btn-primary">Buscar</button>                          
+                      </div> 
+                      <div class="col-md-3" style="display: flex; justify-content: flex-end;">                     
+                          <button type="button" id="btn_pdf" class="btn btn-primary">Imprimir Lista</button>                          
+                      </div> 
+                      </div>
+
+                      <div class="row"> 
+                      
+                      </div>                      
+                  </div>
+                   </form>
+      </div>
+
+
+<!--///////////////////////////////////////////////////////////////////////////////////////// -->
+
+<!-- /////////////////////////////////////////////////////////////////////////////////////////-->  
            
 
     <hr/>
 		
 		<div class="col-sm-12" id="tablaClientesLoad"></div>
   </div>
-</div>
-</div>
+
 <!--///////////////////////////////////////////////////////////////////////////////////////// -->
 
 <!-- /////////////////////////////////////////////////////////////////////////////////////////-->  
-</div>
+
 <div class="modal fade" id="actualizaCliente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
@@ -1088,12 +1176,17 @@ $(newRow).appendTo("#tablaCliente tbody");
    }) 
 
 </script>
+<script src="../js/filtro.js"></script>
 <script type="text/javascript">
   $(document).ready(function(){
+
   $('#tablaClientesLoad').load("clientes/tablaClientes.php");
 })
 </script>
+
+
 <?php 
+
 }else{
   header("location:index.php");
 }

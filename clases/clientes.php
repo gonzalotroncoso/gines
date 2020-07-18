@@ -13,7 +13,7 @@ class clientes{
 		$monto = 0;
 		while($cliente = $stmt1->fetch()){
 			$monto = $monto+$cliente['monto'];
-			$id= $cliente['id_cliente'];
+		
 		}
 		
 		if(self::actualizarMontoMonotributo($monto,$id)){
@@ -577,8 +577,11 @@ public function ActualizaAter($id_condicion,$datos,$provincias){
 			$stmt->bindValue(':ingresos_brutos_simplificado', $datos[27], PDO::PARAM_BOOL);		
 			$stmt->bindValue(':ingresos_brutos_general', $datos[26], PDO::PARAM_BOOL);		
 			$stmt->bindValue(':convenio_multilateral', $datos[28], PDO::PARAM_BOOL);	
-		if($stmt->execute()){
+		if($stmt->execute()){			
 		self::ActualizarProvincias($id_ater,$provincias);
+		if($datos[27]==1){
+			self::pagoSimplificado($id_condicion);
+		}
 		return 1	;			
 			}else{
 				return ($dbh->errorInfo());
@@ -586,6 +589,59 @@ public function ActualizaAter($id_condicion,$datos,$provincias){
 
 
 }
+
+public function pagoSimplificado($id_condicion){
+		$c = new conectar();
+		$dbh = $c->conexion();
+		$sql = "Select m.ingresos_brutos from monotributo m Where m.id_condicion = :id";
+		$stmt = $dbh->prepare($sql);
+		$stmt->bindValue(':id',$id_condicion,PDO::PARAM_INT);
+		$stmt->execute();
+		$r = $stmt->fetch();
+		
+	
+}
+
+public function calcularPagoSimplificado($r,$id_condicion){
+	$c = new conectar();
+	$dbh = $c->conexion();
+	$monto = 0;	
+	if ($ingresos_brutos<= 208739){
+		$monto = 600;
+	}else if ($ingresos_brutos >208739 && $ingresos_brutos<= 313108 ){
+		$monto = 756;
+	}else if ($ingresos_brutos>313108 && $ingresos_brutos<= 417478){
+		$monto = 1057;
+	}else if ($ingresos_brutos> 417478 && $ingresos_brutos <= 626217 ){
+		$monto =  1510;
+	}else if ($ingresos_brutos > 626217 && $ingresos_brutos <= 834957){
+		$monto =  2115;
+	}else if ($ingresos_brutos > 834957 && $ingresos_brutos <= 1043696){
+		$monto =  2719;
+	}else if ($ingresos_brutos > 1043696 && $ingresos_brutos <= 1252435){
+		$monto =   3324;
+	}else if ($ingresos_brutos > 1252435 && $ingresos_brutos <= 1739493){
+		$monto =   4332;
+	}else if ($ingresos_brutos > 1739493 && $ingresos_brutos <= 2043905){
+		$monto =    5476;
+	}else if ($ingresos_brutos > 2043905 && $ingresos_brutos <= 2348316){
+		$monto =    6358;
+	}else if ($ingresos_brutos > 2348316 && $ingresos_brutos <= 2609240){
+		$monto =    7176;
+	}
+	if($monto!= 0){
+	$sql = "INSERT INTO pago_simplificado (id_condicion, monto) VALUES (:id_condicion, :monto)";
+	$stmt = $dbh->prepare($sql);
+	$stmt->bindValue(':id_condicion',$id_condicion,PDO::PARAM_INT);
+	$stmt->bindValue(':monto',$monto,PDO::PARAM_INT);
+	if($stmt->execute()){
+		return true;
+	}else{
+		return $stmt->errorInfo();
+	}
+	}
+}
+
 public function ActualizarProvincias($id_ater,$provincias){
 	
 		$c = new conectar();
@@ -881,11 +937,76 @@ public function bajaClientes($datos){
 
 
 
+public function cargaIngresosBrutos($datos){
+	$c = new conectar();
+	$dbh = $c->conexion();
+
+	$s = "UPDATE condiciontributaria set ingresos_brutos=:ingresos_brutos where id_cliente = :id";
+	$st = $dbh->prepare($s);
+	$st->bindValue(':ingresos_brutos', $datos[3],PDO::PARAM_STR);
+	$st->bindValue(':id', $datos[0],PDO::PARAM_INT);
+	if($st->execute()){
+	
+		$q = "SELECT * FROM condiciontributaria con where con.id_cliente = :id";
+		$stmt = $dbh->prepare($q);
+		$stmt->bindValue(':id',$datos[0],PDO::PARAM_INT);
+		$stmt->execute();
+		$r = $stmt->fetch();
+
+		$monto = self::CalculaAter($r['ingresos_brutos']);
+		$id_condicion = $r['id_condicion'];
+
+		$sql = "INSERT INTO pago_simplificado (id_condicion, montoSimplificado) VALUES (:id_condicion, :monto)";
+		$stmt1 = $dbh->prepare($sql);
+		$stmt1->bindValue(':id_condicion',$id_condicion,PDO::PARAM_INT);
+		$stmt1->bindValue(':monto',$monto,PDO::PARAM_INT);
+		if($stmt1->execute()){
+			return true;
+		}else{
+			$s = print_r($stmt1->errorInfo());
+			return $s;
+		}
+		
+	}else{
+		return 0;
+	}
+}
+
+public function CalculaAter($ingresos_brutos){
+	if ($ingresos_brutos<= 208739){
+		$monto = 600;
+	}else if ($ingresos_brutos >208739 && $ingresos_brutos<= 313108 ){
+		$monto = 756;
+	}else if ($ingresos_brutos>313108 && $ingresos_brutos<= 417478){
+		$monto = 1057;
+	}else if ($ingresos_brutos> 417478 && $ingresos_brutos <= 626217 ){
+		$monto =  1510;
+	}else if ($ingresos_brutos > 626217 && $ingresos_brutos <= 834957){
+		$monto =  2115;
+	}else if ($ingresos_brutos > 834957 && $ingresos_brutos <= 1043696){
+		$monto =  2719;
+	}else if ($ingresos_brutos > 1043696 && $ingresos_brutos <= 1252435){
+		$monto =   3324;
+	}else if ($ingresos_brutos > 1252435 && $ingresos_brutos <= 1739493){
+		$monto =   4332;
+	}else if ($ingresos_brutos > 1739493 && $ingresos_brutos <= 2043905){
+		$monto =    5476;
+	}else if ($ingresos_brutos > 2043905 && $ingresos_brutos <= 2348316){
+		$monto =    6358;
+	}else if ($ingresos_brutos > 2348316 && $ingresos_brutos <= 2609240){
+		$monto =    7176;
+	}else{
+		$monto = 7176;
+	}
+
+	return $monto;
+}
 
 public function cargarMontoMonotributo($datos){
 
 
-		$diferencia = self::diferenciames($datos[1],$datos[2]);		
+		$diferencia = self::diferenciames($datos[1],$datos[2]);	
+		$m = $datos[3]	;
 		$monto=$datos[3];
 		$montoMes = $monto/($diferencia+1);		
 
@@ -904,8 +1025,14 @@ public function cargarMontoMonotributo($datos){
 		$sql4 = "UPDATE monotributo set ingresos_brutos=:ingresos_brutos where id_monotributo=:id_monotributo";
 		$stmt4 = $dbh->prepare($sql4);
 		$stmt4->bindValue(':id_monotributo',$id_mono,PDO::PARAM_INT);
-		$stmt4->bindValue(':ingresos_brutos',$monto,PDO::PARAM_STR);
+		$stmt4->bindValue(':ingresos_brutos',$m,PDO::PARAM_STR);
 		$stmt4->execute();
+
+		$sql9 = "UPDATE condiciontributaria set ingresos_brutos=:ingresos_brutos where id_cliente=:id";
+		$stmt9 = $dbh->prepare($sql9);
+		$stmt9->bindValue(':id',$datos[0],PDO::PARAM_INT);
+		$stmt9->bindValue(':ingresos_brutos',$m,PDO::PARAM_STR);
+		$stmt9->execute();
 
 		$sqlm="INSERT INTO monotributomensual 
 				(mes, monto, id_monotributo	)
@@ -940,9 +1067,15 @@ public function cargarMontoMonotributo($datos){
 		$stmt3->bindValue(':mes',$datos[2],PDO::PARAM_STR);
 		$stmt3->bindValue(':monto',$montoMes,PDO::PARAM_STR);
 		$stmt3->bindValue(':id_monotributo',$id_mono,PDO::PARAM_INT);
-		$stmt3->execute();
-		self::actualizarMontoMonotributo($datos[3],$datos[0]);
-		return true;
+		if ($stmt3->execute()){
+			self::actualizarMontoMonotributo($datos[3],$datos[0]);
+			self::cargaIngresosBrutos($datos);	
+			return true;
+		}else{
+			return $dbh->errorInfo();
+		}
+		
+		
 		
 		}
 
@@ -1005,34 +1138,56 @@ public function mesMonotributo($datos){
 
 }
 
-
-
-public function actualizarMontoMonotributo($monto, $id_cliente){
-
+public function AsignarCategoria($letra){
 	$c= new conectar();
 	$dbh = $c->conexion();	
 
-	if($monto<=138127.99){
+	$s = "SELECT * FROM tabla_monotributo where categoria =:categoria";	
+	$st = $dbh->prepare($s);
+	$st->bindValue(':categoria',$letra,PDO::PARAM_STR);	
+	$st->execute();	
+	$tabla = $st->fetch();
+	return $tabla['ingresos'];
+}
+
+
+
+public function actualizarMontoMonotributo($monto, $id_cliente){
+	$c= new conectar();
+	$dbh = $c->conexion();	
+	$a = self::AsignarCategoria("A");
+	$b = self::AsignarCategoria("B");
+	$c = self::AsignarCategoria("C");
+	$d = self::AsignarCategoria("D");
+	$e = self::AsignarCategoria("E");
+	$f = self::AsignarCategoria("F");
+	$g = self::AsignarCategoria("G");
+	$h = self::AsignarCategoria("H");
+	$i = self::AsignarCategoria("I");
+	$j = self::AsignarCategoria("J");
+	$k = self::AsignarCategoria("K");
+	
+	if($monto<=$a){
 		$categoria = "A";
-	}elseif ($monto>138127.99 && $monto<=207191.98) {
+	}elseif ($monto>$a && $monto<=$b) {
 		$categoria = "B";
-	}elseif ($monto>207191.98 && $monto<= 276255.98) {
+	}elseif ($monto>$b && $monto<= $c) {
 		$categoria = "C";
-	}elseif ($monto>276255.98 && $monto<= 414383.98) {
+	}elseif ($monto>$c && $monto<= $d) {
 		$categoria = "D";
-	}elseif ($monto>414383.98 && $monto<= 552511.95) {
+	}elseif ($monto>$d && $monto<= $e) {
 		$categoria = "E";
-	}elseif ($monto>552511.95 && $monto<= 690639.95) {
+	}elseif ($monto>$e && $monto<=$f) {
 		$categoria = "F";
-	}elseif ($monto>690639.95 && $monto<= 828767.94) {
+	}elseif ($monto>$f && $monto<= $g) {
 		$categoria = "G";
-	}elseif ($monto>828767.94 && $monto<= 1151066.58) {
+	}elseif ($monto>$g && $monto<= $h) {
 		$categoria = "H";
-	}elseif ($monto>1151066.58 && $monto<= 1352503.24) {
+	}elseif ($monto>$h && $monto<= $i) {
 		$categoria = "I";
-	}elseif ($monto>1352503.24 && $monto<= 1553939.00) {
+	}elseif ($monto>$i && $monto<= $j) {
 		$categoria = "J";
-	}elseif ($monto>1553939.00 && $monto<= 1726599.88) {
+	}elseif ($monto>$j && $monto<= $k) {
 		$categoria = "K";
 	}else $categoria ="K";
 
@@ -1053,8 +1208,8 @@ public function actualizarMontoMonotributo($monto, $id_cliente){
 	self::CargaUpdateMono($datomono,$id_cliente);
 	return true;
 
-	}
 	
+	}
 	
 	
 

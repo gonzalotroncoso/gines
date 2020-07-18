@@ -22,7 +22,7 @@ $dbh = $c->conexion();
 			<div class="col-sm-12">
 
         
-				</select>
+				
 					<label>Seleccionar Cliente</label>
 						<select class="form-control input-sm" id="id_cliente" name="id_cliente">
 			

@@ -26,8 +26,17 @@ $dbh = $c->conexion();
 			<div class="col-sm-12">   							
 					<label class="col-sm-2">Seleccionar Cliente</label>
 					<div class="col-sm-4">
+
+						<select class="form-control input-sm" id="condicion" name="condicion">
+							<option value="0">Condicion Tributaria</option>	
+							<option value="1">Monotributista</option>
+							<option value="2">Responsable Inscripto</option>
+							<option value="3">Exento</option>
+							<option value="4">No Inscripto</option>
+						</select>
+						<br>
 						<select class="form-control input-sm" id="id_cliente" name="id_cliente">
-					<option value="0"> Seleccionar cliente</option>
+						<option value="0"> Seleccionar cliente</option>
 						<?php
 							$estado = "inactivo";
 							$sql ="SELECT * FROM clientes c, datosfiscales d  where c.id_cliente = d.id_cliente ORDER BY nro_cliente ASC";			
@@ -56,6 +65,7 @@ $dbh = $c->conexion();
 	    						<th class="active">Tipo Persona</th>
 	    						<th class="active">Estado</th>
 	    						<th class="active">Cuit</th>	    						
+	    						<th class="active">Afip</th>	    						
 	    					</thead>
 	    					<tbody  style ="text-align: center;" >
 	    						
@@ -136,15 +146,17 @@ $dbh = $c->conexion();
 </body>
 </html>	
 <script type="text/javascript">	
-$(document).ready(function(){		
-		$('#id_cliente').change(function(){			
+	
+		$('#id_cliente').change(function(){		
+			console.log($('#id_cliente').val())
 			$.ajax({
 				type:"POST",
 				data:"idcliente="+ $('#id_cliente').val(),
 				url:"../procesos/liquidacion/cargarTablaLiquidacion.php",								
 				success:function(r){
-					
-				data= jQuery.parseJSON( r );				
+				console.log(r);
+				data= jQuery.parseJSON( r );	
+				console.log(data)			
 				if(data['denominacion']!=null){
 				$("#tablajson tbody").html("");
 				var newRow =
@@ -154,6 +166,7 @@ $(document).ready(function(){
 				+"<td>"+data['tipo']+"</td>"				
 				+"<td>"+data['estado']+"</td>"				
 				+"<td>"+data['cuit']+"</td>"				
+				+"<td>"+data['afip']+"</td>"				
 				+"</tr>";
 				$(newRow).appendTo("#tablajson tbody");
 				}else{
@@ -165,6 +178,7 @@ $(document).ready(function(){
 				+"<td>"+""+"</td>"				
 				+"<td>"+""+"</td>"				
 				+"<td>"+""+"</td>"				
+				+"<td>"+""+"</td>"
 				+"</tr>";
 
 				}
@@ -177,7 +191,7 @@ $(document).ready(function(){
 			});
 
 		});	
-	});	
+	
 
 
 </script>
@@ -203,7 +217,7 @@ $(document).ready(function(){
 				url:"../procesos/pagos/validarFechaLiquidacion.php",				
 				success:function(r){
 					
-					if (r==1){
+						if (r==1){
 
 						alertify.alert("Ya se han cargado pagos en este mes");
 						return false;
@@ -220,16 +234,46 @@ $(document).ready(function(){
 					alertify.success("Liquidación cargada");
 					   $('#liquidacion').trigger("reset");
 				}else{			
-							
+					alert(r);
 					alertify.error("No se pudo cargar liquidacion");
 				}
 			}
 		})
-			}}
+			}
+		}
 })			
 
 	  })
 	})
+</script>
+
+<script type="text/javascript">
+	$("#condicion").change(function(){
+		var id_condicion = document.getElementById('condicion').value;
+		
+		
+					$.ajax({
+						type:"POST",
+						data:"id_condicion="+id_condicion,
+						url:"../procesos/liquidacion/filtroCliente.php",
+						success:function(r){		
+
+							
+							 dato = jQuery.parseJSON(r);							
+							 $("#id_cliente").html("");							 
+							  dato.forEach(function(data, index) {
+							  								  	
+							  	newRow =
+							  	'<option value="'+data.id_cliente+'">'+data.denominacion+'</option>';
+							  	$(newRow).appendTo("#id_cliente"); 
+							  	
+							  })
+							
+							
+						}
+					})
+		
+});
 </script>
 
 

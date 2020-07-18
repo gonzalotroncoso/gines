@@ -91,11 +91,13 @@ $count = 0;
        	}else{
        		echo $dbh->error_info();
        	}
-       	$stmt4 = $dbh->prepare("INSERT INTO condiciontributaria (id_cliente, afip) values(?,?)");
+       	$stmt4 = $dbh->prepare("INSERT INTO condiciontributaria (id_cliente, afip, ingresos_brutos) values(?,?,?)");
        	$stmt4->bindParam(1,$id_cl);
        	$stmt4->bindParam(2,$afip);
+        $stmt4->bindParam(3,$ig);
        	$id_cl = $id;
     	$afip = utf8_encode($fields[19]);
+        $ig = $fields[22];
     	if($stmt4->execute()){
     		echo("CARGO EL AFIP WACHO: ".$afip)."</br>";
     	}else{
@@ -172,7 +174,7 @@ $count = 0;
 			}elseif ($ingresos_brutos>1553939.00 && $ingresos_brutos<= 1726599.88) {
 			$categoria = "K";
 			}else $categoria ="K";
-		
+		  
 
             if($ingresos_brutos>0){
                 $st = $dbh->prepare('SELECT * FROM tabla_monotributo where categoria =:categoria');
@@ -184,12 +186,22 @@ $count = 0;
                 $actividad = "Bienes";
             }
 
+             
+                
+
             if ($stmt5->execute()){
                 echo "CATEGORIA:".$categoria."   "."TOTAL A PAGAR:".$totalpagar."</br>";
             }else{
                 print_r($dbh->errorInfo());
             }
 			
+
+            ///////////////////////////////////////////////////////////////////////////////////////
+              
+
+
+
+            //////////////////////////////////////////////////////////////////////////////////////
 			
 			
             if ($ingresos_brutos>0){
@@ -240,4 +252,3 @@ $count = 0;
         
     }
 
-    

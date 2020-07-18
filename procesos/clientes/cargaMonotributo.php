@@ -19,5 +19,5 @@ if(isset($_POST['monto'])){
 
 $datos= array($id_cliente,$fecha_inicio,$fecha_fin,$monto);
 
-echo($obj->cargarMontoMonotributo($datos));	
+print_r(($obj->cargarMontoMonotributo($datos));	
  ?>

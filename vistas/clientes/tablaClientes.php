@@ -16,7 +16,7 @@ $stmt->execute();
   <thead class="active">
   <tr>
     <th class="active">Numero de cliente</th>
-    <th class="active">Denominación</th>
+    <th class="active" style="text-align: center;">Denominación</th>
     <th class="active">Estado</th>
     <th class="active">CUIT</th>    
     <th class="active">Ver detalles</th>  

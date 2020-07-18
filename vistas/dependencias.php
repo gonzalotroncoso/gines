@@ -19,3 +19,7 @@
 <script src="../librerias/select2/js/select2.js"></script>
 <script src="../librerias/alertify/alertify.js"></script>
 <script src="../js/funciones.js"></script>
+<script src="../js/moment.min.js"></script>
+<script src="../librerias/jspdf.min.js"></script>
+<script src="../librerias/jspdf.plugin.autotable.js"></script>
+

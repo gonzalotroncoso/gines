@@ -26,6 +26,7 @@ $dbh = $c->conexion();
 				 <div class="row">
 					<label class="col-sm-2 col-form-label">Seleccionar Cliente</label>
 					 <div class="col-sm-10">
+					 	<form id="montoMono">
 							<select class="form-control input-sm" id="id_cliente" name="id_cliente">
 				
 							<?php
@@ -81,6 +82,7 @@ $dbh = $c->conexion();
   						<div class="col-sm-12">
   						<button type="button" class="btn btn-primary btn-lg btn-block" id="btn_cargar">Cargar</button>
   						</div>
+  						</form>
   					</div>
 			</div>
 		</div>
@@ -135,13 +137,17 @@ $dbh = $c->conexion();
 
 <script type="text/javascript">
 	$('#btn_cargar').click(function(){
-		datos=$('#montoMono').serialize();
+		console.log( $("#anio").val());
+		console.log( $("#id_cliente").val());
+
+		datos= $('#montoMono').serialize();
 		$.ajax({
 			type:"POST",
 			data:datos,
 			url:"../procesos/clientes/modificarMonto.php",					
 			success:function(r){				
-				if(r==1){										
+				if(r==1){				
+					alert(r)						
 					alertify.success("Monto Modificado");
 				}else{	
 				alert(r)				;

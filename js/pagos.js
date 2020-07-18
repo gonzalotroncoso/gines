@@ -98,6 +98,7 @@ function calF(){
 }
 
   $(document).ready(function(){ 
+    
     $('#pagocliente').change(function(){  
       $('#pagocl').val($('#pagocliente').val());
       $('#id_clienteF').val($('#id_cliente').val());
@@ -173,15 +174,25 @@ function calF(){
 
   $(document).ready(function(){       
     $('#id_cliente').change(function(){     
+
+       $('#ater').val(0);
       $.ajax({
         type:"POST",
         data:"idcliente="+ $('#id_cliente').val(),
         url:"../procesos/liquidacion/cargarTablaLiquidacion.php",               
         success:function(r){
-          
-        data= jQuery.parseJSON( r );        
+       
+        data= jQuery.parseJSON( r );   
+       
+
         if(data['denominacion']!=null){
+        
         $("#tablajson tbody").html("");
+        $('#monotributo').val(data['monto']);
+        $('#ater').val(data['montopg']);
+        m = parseInt(data['monto']);
+        g = parseInt(data['montopg'])
+        $('#total').val(m+g);
         var newRow =
         "<tr>"
         +"<td>"+data['id']+"</td>"        
@@ -189,6 +200,7 @@ function calF(){
         +"<td>"+data['tipo']+"</td>"        
         +"<td>"+data['estado']+"</td>"        
         +"<td>"+data['cuit']+"</td>"        
+        +"<td>"+data['afip']+"</td>"    
         +"</tr>";
         $(newRow).appendTo("#tablajson tbody");
         }else{
@@ -200,6 +212,7 @@ function calF(){
         +"<td>"+""+"</td>"        
         +"<td>"+""+"</td>"        
         +"<td>"+""+"</td>"        
+        +"<td>"+""+"</td>"  
         +"</tr>";
 
         }
@@ -217,7 +230,3 @@ function calF(){
 
 
 
-    $(document).ready(function(){
-  $('#tablaLiquidacionLoad').load("tablapago.php");
-  
-})

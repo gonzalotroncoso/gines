@@ -213,7 +213,7 @@ $dbh = $c->conexion();
 			Type: 'POST',
 			url:"../procesos/clientes/recTodos.php",
 			success:function(r){
-
+				
 				
 				if(r==1){
 					alertify.success("Todos los clientes han sido recategorizados");

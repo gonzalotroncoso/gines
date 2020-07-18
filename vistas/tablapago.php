@@ -5,6 +5,7 @@
 	    						<th class="active">Tipo Persona</th>
 	    						<th class="active">Estado</th>
 	    						<th class="active">Cuit</th>
+	    						<th class="active">Afip</th>
 	    						
 	    					</thead>
 	    					<tbody  style ="text-align: center;" >
