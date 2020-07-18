@@ -94,9 +94,9 @@
             <ul class="dropdown-menu">
               <li> <a style="color: blue" href="../procesos/salir.php"><span class="glyphicon glyphicon-off"></span> Salir</a></li>
               <li> <a href="#" id="exportar">Exportar base de datos</a></li>
-               <li> <a href="">Vaciar base de datos</a></li>
+              
                <li> <a href="cargaTablaMonotributo.php">Modificar tabla de monotributo</a></li>
-               <li> <a href="">Modificar tabla de pago simplificado</a></li>              
+               <li> <a href="cargaTablaSimplificado.php">Modificar tabla de pago simplificado</a></li>              
             </ul>
           </li>
         </ul>
@@ -124,8 +124,9 @@
       function (e) {
               if (e) {
                 $.ajax({
-      url:"../procesos/clientes/recTodos.php",
+      url:"../procesos/exportar.php",
       success:function(r){
+        alert(r);
         if (r == 1) {
                     alertify.success('Base de datos guardada en la carpeta del sistema');
                     }

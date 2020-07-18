@@ -602,33 +602,45 @@ public function pagoSimplificado($id_condicion){
 	
 }
 
-public function calcularPagoSimplificado($r,$id_condicion){
+public function calcularPagoSimplificado($monto,$id_condicion){
 	$c = new conectar();
 	$dbh = $c->conexion();
 	$monto = 0;	
-	if ($ingresos_brutos<= 208739){
-		$monto = 600;
-	}else if ($ingresos_brutos >208739 && $ingresos_brutos<= 313108 ){
-		$monto = 756;
-	}else if ($ingresos_brutos>313108 && $ingresos_brutos<= 417478){
-		$monto = 1057;
-	}else if ($ingresos_brutos> 417478 && $ingresos_brutos <= 626217 ){
-		$monto =  1510;
-	}else if ($ingresos_brutos > 626217 && $ingresos_brutos <= 834957){
-		$monto =  2115;
-	}else if ($ingresos_brutos > 834957 && $ingresos_brutos <= 1043696){
-		$monto =  2719;
-	}else if ($ingresos_brutos > 1043696 && $ingresos_brutos <= 1252435){
-		$monto =   3324;
-	}else if ($ingresos_brutos > 1252435 && $ingresos_brutos <= 1739493){
-		$monto =   4332;
-	}else if ($ingresos_brutos > 1739493 && $ingresos_brutos <= 2043905){
-		$monto =    5476;
-	}else if ($ingresos_brutos > 2043905 && $ingresos_brutos <= 2348316){
-		$monto =    6358;
-	}else if ($ingresos_brutos > 2348316 && $ingresos_brutos <= 2609240){
-		$monto =    7176;
-	}
+	$a = self::AsignarCategoria_Simplificado("A");
+	$b = self::AsignarCategoria_Simplificado("B");
+	$c = self::AsignarCategoria_Simplificado("C");
+	$d = self::AsignarCategoria_Simplificado("D");
+	$e = self::AsignarCategoria_Simplificado("E");
+	$f = self::AsignarCategoria_Simplificado("F");
+	$g = self::AsignarCategoria_Simplificado("G");
+	$h = self::AsignarCategoria_Simplificado("H");
+	$i = self::AsignarCategoria_Simplificado("I");
+	$j = self::AsignarCategoria_Simplificado("J");
+	$k = self::AsignarCategoria_Simplificado("K");
+
+	if($monto<=$a){
+		$categoria = "A";
+	}elseif ($monto>$a && $monto<=$b) {
+		$categoria = "B";
+	}elseif ($monto>$b && $monto<= $c) {
+		$categoria = "C";
+	}elseif ($monto>$c && $monto<= $d) {
+		$categoria = "D";
+	}elseif ($monto>$d && $monto<= $e) {
+		$categoria = "E";
+	}elseif ($monto>$e && $monto<=$f) {
+		$categoria = "F";
+	}elseif ($monto>$f && $monto<= $g) {
+		$categoria = "G";
+	}elseif ($monto>$g && $monto<= $h) {
+		$categoria = "H";
+	}elseif ($monto>$h && $monto<= $i) {
+		$categoria = "I";
+	}elseif ($monto>$i && $monto<= $j) {
+		$categoria = "J";
+	}elseif ($monto>$j && $monto<= $k) {
+		$categoria = "K";
+	}else $categoria ="K";
 	if($monto!= 0){
 	$sql = "INSERT INTO pago_simplificado (id_condicion, monto) VALUES (:id_condicion, :monto)";
 	$stmt = $dbh->prepare($sql);
@@ -945,61 +957,90 @@ public function cargaIngresosBrutos($datos){
 	$st = $dbh->prepare($s);
 	$st->bindValue(':ingresos_brutos', $datos[3],PDO::PARAM_STR);
 	$st->bindValue(':id', $datos[0],PDO::PARAM_INT);
-	if($st->execute()){
-	
+	if($st->execute()){	
 		$q = "SELECT * FROM condiciontributaria con where con.id_cliente = :id";
 		$stmt = $dbh->prepare($q);
 		$stmt->bindValue(':id',$datos[0],PDO::PARAM_INT);
 		$stmt->execute();
 		$r = $stmt->fetch();
-
-		$monto = self::CalculaAter($r['ingresos_brutos']);
-		$id_condicion = $r['id_condicion'];
-
-		$sql = "INSERT INTO pago_simplificado (id_condicion, montoSimplificado) VALUES (:id_condicion, :monto)";
-		$stmt1 = $dbh->prepare($sql);
-		$stmt1->bindValue(':id_condicion',$id_condicion,PDO::PARAM_INT);
-		$stmt1->bindValue(':monto',$monto,PDO::PARAM_INT);
-		if($stmt1->execute()){
-			return true;
-		}else{
-			$s = print_r($stmt1->errorInfo());
-			return $s;
-		}
+		if($r['afip'] == "Monotributista"){
+		
+				$monto = self::CalculaAter($r['ingresos_brutos']);
+				$id_condicion = $r['id_condicion'];
+				$sql = "INSERT INTO pago_simplificado (id_condicion, montoSimplificado) VALUES (:id_condicion, :monto)";
+				$stmt1 = $dbh->prepare($sql);
+				$stmt1->bindValue(':id_condicion',$id_condicion,PDO::PARAM_INT);
+				$stmt1->bindValue(':monto',$monto,PDO::PARAM_INT);
+				if($stmt1->execute()){
+										return true;
+									}else{
+										$s = print_r($stmt1->errorInfo());
+										return $s;
+									}
+			}else{
+				return true;
+			}
 		
 	}else{
 		return 0;
 	}
 }
 
-public function CalculaAter($ingresos_brutos){
-	if ($ingresos_brutos<= 208739){
-		$monto = 600;
-	}else if ($ingresos_brutos >208739 && $ingresos_brutos<= 313108 ){
-		$monto = 756;
-	}else if ($ingresos_brutos>313108 && $ingresos_brutos<= 417478){
-		$monto = 1057;
-	}else if ($ingresos_brutos> 417478 && $ingresos_brutos <= 626217 ){
-		$monto =  1510;
-	}else if ($ingresos_brutos > 626217 && $ingresos_brutos <= 834957){
-		$monto =  2115;
-	}else if ($ingresos_brutos > 834957 && $ingresos_brutos <= 1043696){
-		$monto =  2719;
-	}else if ($ingresos_brutos > 1043696 && $ingresos_brutos <= 1252435){
-		$monto =   3324;
-	}else if ($ingresos_brutos > 1252435 && $ingresos_brutos <= 1739493){
-		$monto =   4332;
-	}else if ($ingresos_brutos > 1739493 && $ingresos_brutos <= 2043905){
-		$monto =    5476;
-	}else if ($ingresos_brutos > 2043905 && $ingresos_brutos <= 2348316){
-		$monto =    6358;
-	}else if ($ingresos_brutos > 2348316 && $ingresos_brutos <= 2609240){
-		$monto =    7176;
-	}else{
-		$monto = 7176;
+public function CalculaAter($monto){
+	$c = new conectar();
+	$dbh = $c->conexion();
+
+	$a = self::AsignarCategoria_Simplificado("A");
+	$b = self::AsignarCategoria_Simplificado("B");
+	$c = self::AsignarCategoria_Simplificado("C");
+	$d = self::AsignarCategoria_Simplificado("D");
+	$e = self::AsignarCategoria_Simplificado("E");
+	$f = self::AsignarCategoria_Simplificado("F");
+	$g = self::AsignarCategoria_Simplificado("G");
+	$h = self::AsignarCategoria_Simplificado("H");
+	$i = self::AsignarCategoria_Simplificado("I");
+	$j = self::AsignarCategoria_Simplificado("J");
+	$k = self::AsignarCategoria_Simplificado("K");
+
+	if($monto<=$a){
+		$categoria = "A";
+	}elseif ($monto>$a && $monto<=$b) {
+		$categoria = "B";
+	}elseif ($monto>$b && $monto<= $c) {
+		$categoria = "C";
+	}elseif ($monto>$c && $monto<= $d) {
+		$categoria = "D";
+	}elseif ($monto>$d && $monto<= $e) {
+		$categoria = "E";
+	}elseif ($monto>$e && $monto<=$f) {
+		$categoria = "F";
+	}elseif ($monto>$f && $monto<= $g) {
+		$categoria = "G";
+	}elseif ($monto>$g && $monto<= $h) {
+		$categoria = "H";
+	}elseif ($monto>$h && $monto<= $i) {
+		$categoria = "I";
+	}elseif ($monto>$i && $monto<= $j) {
+		$categoria = "J";
+	}elseif ($monto>$j && $monto<= $k) {
+		$categoria = "K";
+	}else $categoria ="K";
+
+	if($monto!= 0){
+	$sql = "INSERT INTO pago_simplificado (id_condicion, monto) VALUES (:id_condicion, :monto)";
+	$stmt = $dbh->prepare($sql);
+	$stmt->bindValue(':id_condicion',$id_condicion,PDO::PARAM_INT);
+	$stmt->bindValue(':monto',$monto,PDO::PARAM_INT);
+	if($stmt->execute()){
+		$ater = $stmt->fetch();
+		return $ater['impuesto'];
+		}
+		return 0;
+
 	}
 
-	return $monto;
+
+
 }
 
 public function cargarMontoMonotributo($datos){
@@ -1138,6 +1179,21 @@ public function mesMonotributo($datos){
 
 }
 
+
+public function AsignarCategoria_Simplificado($letra){
+	$c= new conectar();
+	$dbh = $c->conexion();	
+
+	$s = "SELECT * FROM tabla_PagoSimplificado where categoria =:categoria";	
+	$st = $dbh->prepare($s);
+	$st->bindValue(':categoria',$letra,PDO::PARAM_STR);	
+	$st->execute();	
+	$tabla = $st->fetch();
+	return $tabla['ingresos_anuales'];
+}
+
+}
+
 public function AsignarCategoria($letra){
 	$c= new conectar();
 	$dbh = $c->conexion();	
@@ -1150,7 +1206,66 @@ public function AsignarCategoria($letra){
 	return $tabla['ingresos'];
 }
 
+public function actualizarSimplificado($monto, $id_cliente){
+	$c= new conectar();
+	$dbh = $c->conexion();	
+	$a = self::AsignarCategoria_Simplificado("A");
+	$b = self::AsignarCategoria_Simplificado("B");
+	$c = self::AsignarCategoria_Simplificado("C");
+	$d = self::AsignarCategoria_Simplificado("D");
+	$e = self::AsignarCategoria_Simplificado("E");
+	$f = self::AsignarCategoria_Simplificado("F");
+	$g = self::AsignarCategoria_Simplificado("G");
+	$h = self::AsignarCategoria_Simplificado("H");
+	$i = self::AsignarCategoria_Simplificado("I");
+	$j = self::AsignarCategoria_Simplificado("J");
+	$k = self::AsignarCategoria_Simplificado("K");
 
+	if($monto<=$a){
+		$categoria = "A";
+	}elseif ($monto>$a && $monto<=$b) {
+		$categoria = "B";
+	}elseif ($monto>$b && $monto<= $c) {
+		$categoria = "C";
+	}elseif ($monto>$c && $monto<= $d) {
+		$categoria = "D";
+	}elseif ($monto>$d && $monto<= $e) {
+		$categoria = "E";
+	}elseif ($monto>$e && $monto<=$f) {
+		$categoria = "F";
+	}elseif ($monto>$f && $monto<= $g) {
+		$categoria = "G";
+	}elseif ($monto>$g && $monto<= $h) {
+		$categoria = "H";
+	}elseif ($monto>$h && $monto<= $i) {
+		$categoria = "I";
+	}elseif ($monto>$i && $monto<= $j) {
+		$categoria = "J";
+	}elseif ($monto>$j && $monto<= $k) {
+		$categoria = "K";
+	}else $categoria ="K";
+
+	$sql2= "SELECT * FROM tabla_simplificado where categoria =:categoria";
+	$stmt2 = $dbh->prepare($sql2);	
+	$stmt2->bindValue(':categoria',$categoria,PDO::PARAM_STR);
+	$stmt2->execute();
+	$simplificado = $stmt2->fetch();	
+
+	$sql3 = "UPDATE pago_simplificado set montoSimplificado=:monto where id_condicion = :id";
+	$stmt3 = $dbh->prepare($sql3);
+	$stmt3->bindValue(':monto',$simplificado['impuesto'],PDO::PARAM_INT);
+	$stmt3->bindValue(':id',$simplificado['id_condicion'],PDO::PARAM_INT);
+	if($stmt3->execute()){
+		return true;
+	}else{
+		return $stmt3->$db->errorInfo();
+	}
+	
+
+
+	
+
+}
 
 public function actualizarMontoMonotributo($monto, $id_cliente){
 	$c= new conectar();
