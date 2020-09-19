@@ -154,9 +154,9 @@ $dbh = $c->conexion();
 				data:"idcliente="+ $('#id_cliente').val(),
 				url:"../procesos/liquidacion/cargarTablaLiquidacion.php",								
 				success:function(r){
-				console.log(r);
+				
 				data= jQuery.parseJSON( r );	
-				console.log(data)			
+					
 				if(data['denominacion']!=null){
 				$("#tablajson tbody").html("");
 				var newRow =
@@ -233,8 +233,9 @@ $dbh = $c->conexion();
 					
 					alertify.success("Liquidación cargada");
 					   $('#liquidacion').trigger("reset");
+					   $('#id_cliente').val("0");
 				}else{			
-					alert(r);
+					  $('#liquidacion').trigger("reset");
 					alertify.error("No se pudo cargar liquidacion");
 				}
 			}
@@ -261,12 +262,17 @@ $dbh = $c->conexion();
 							
 							 dato = jQuery.parseJSON(r);							
 							 $("#id_cliente").html("");							 
+							 var i = 0;
 							  dato.forEach(function(data, index) {
-							  								  	
+							  	if (i==0){
+							  	newRow =
+							  	"<option value=''>seleccionar cliente</option>";
+							  	$(newRow).appendTo("#id_cliente"); 	
+							  	}							  	
 							  	newRow =
 							  	'<option value="'+data.id_cliente+'">'+data.denominacion+'</option>';
 							  	$(newRow).appendTo("#id_cliente"); 
-							  	
+							  	i++;
 							  })
 							
 							

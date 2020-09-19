@@ -51,6 +51,7 @@
              <!-- <li><a href="MesMonotributo.php">Cargar Mes</a></li>              -->
               <li><a href="editarFechaMono.php">Modificar monto de mes</a></li>              
               <li><a href="recategorizacion.php">Recategorizar</a></li>              
+              <li><a href="historial.php">Historial Monotributo</a></li>              
             </ul>        
           </li>
 
@@ -126,7 +127,7 @@
                 $.ajax({
       url:"../procesos/exportar.php",
       success:function(r){
-        alert(r);
+        
         if (r == 1) {
                     alertify.success('Base de datos guardada en la carpeta del sistema');
                     }

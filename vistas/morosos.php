@@ -340,8 +340,8 @@ $stmt5->execute();
 		var monotributo = document.liquidacionF.monotributo.value;
 		var monotributoPago = document.liquidacionF.monotributoPago.value;
 		try{
-			monotributo = (isNaN(parseFloat(monotributo)))? 0 : parseFloat(monotributo);
-			monotributoPago = (isNaN(parseFloat(monotributoPago)))? 0 : parseFloat(monotributoPago);
+			monotributo = (isNaN(parseInt(monotributo)))? 0 : parseInt(monotributo);
+			monotributoPago = (isNaN(parseInt(monotributoPago)))? 0 : parseInt(monotributoPago);
 			saldo = monotributo - monotributoPago;
 			
 			$('#monotributoSaldo').val(saldo);
@@ -354,8 +354,8 @@ $stmt5->execute();
 		var ater = document.liquidacionF.ater.value;
 		var aterPago = document.liquidacionF.aterPago.value;
 		try{
-			ater = (isNaN(parseFloat(ater)))? 0 : parseFloat(ater);
-			aterPago = (isNaN(parseFloat(aterPago)))? 0 : parseFloat(aterPago);
+			ater = (isNaN(parseInt(ater)))? 0 : parseInt(ater);
+			aterPago = (isNaN(parseInt(aterPago)))? 0 : parseInt(aterPago);
 			aterSaldo = ater - aterPago;
 			
 			$('#aterSaldo').val(aterSaldo);
@@ -367,8 +367,8 @@ $stmt5->execute();
 		var municipalidad = document.liquidacionF.municipalidad.value;
 		var municipalidadPago = document.liquidacionF.municipalidadPago.value;
 		try{
-			municipalidad = (isNaN(parseFloat(municipalidad)))? 0 : parseFloat(municipalidad);
-			municipalidadPago = (isNaN(parseFloat(municipalidadPago)))? 0 : parseFloat(municipalidadPago);
+			municipalidad = (isNaN(parseInt(municipalidad)))? 0 : parseInt(municipalidad);
+			municipalidadPago = (isNaN(parseInt(municipalidadPago)))? 0 : parseInt(municipalidadPago);
 			municipalidadSaldo = municipalidad - municipalidadPago;
 			
 			$('#municipalidadSaldo').val(municipalidadSaldo);
@@ -380,8 +380,8 @@ $stmt5->execute();
 		var empleador = document.liquidacionF.empleador.value;
 		var empleadorPago = document.liquidacionF.empleadorPago.value;
 		try{
-			empleador = (isNaN(parseFloat(empleador)))? 0 : parseFloat(empleador);
-			empleadorPago = (isNaN(parseFloat(empleadorPago)))? 0 : parseFloat(empleadorPago);
+			empleador = (isNaN(parseInt(empleador)))? 0 : parseInt(empleador);
+			empleadorPago = (isNaN(parseInt(empleadorPago)))? 0 : parseInt(empleadorPago);
 			empleadorSaldo = empleador - empleadorPago;
 			
 			$('#empleadorSaldo').val(empleadorSaldo);
@@ -393,8 +393,8 @@ $stmt5->execute();
 		var sindicato = document.liquidacionF.sindicato.value;
 		var sindicatoPago = document.liquidacionF.sindicatoPago.value;
 		try{
-			sindicato = (isNaN(parseFloat(sindicato)))? 0 : parseFloat(sindicato);
-			sindicatoPago = (isNaN(parseFloat(sindicatoPago)))? 0 : parseFloat(sindicatoPago);
+			sindicato = (isNaN(parseInt(sindicato)))? 0 : parseInt(sindicato);
+			sindicatoPago = (isNaN(parseInt(sindicatoPago)))? 0 : parseInt(sindicatoPago);
 			sindicatoSaldo = sindicato - sindicatoPago;
 			
 			$('#sindicatoSaldo').val(sindicatoSaldo);
@@ -405,8 +405,8 @@ $stmt5->execute();
 		var iva = document.liquidacionF.iva.value;
 		var ivaPago = document.liquidacionF.ivaPago.value;
 		try{
-			iva = (isNaN(parseFloat(iva)))? 0 : parseFloat(iva);
-			ivaPago = (isNaN(parseFloat(ivaPago)))? 0 : parseFloat(ivaPago);
+			iva = (isNaN(parseInt(iva)))? 0 : parseInt(iva);
+			ivaPago = (isNaN(parseInt(ivaPago)))? 0 : parseInt(ivaPago);
 			ivaSaldo = iva - ivaPago;
 			
 			$('#ivaSaldo').val(ivaSaldo);
@@ -417,8 +417,8 @@ $stmt5->execute();
 		var sicore = document.liquidacionF.sicore.value;
 		var sicorePago = document.liquidacionF.sicorePago.value;
 		try{
-			sicore = (isNaN(parseFloat(sicore)))? 0 : parseFloat(sicore);
-			sicorePago = (isNaN(parseFloat(sicorePago)))? 0 : parseFloat(sicorePago);
+			sicore = (isNaN(parseInt(sicore)))? 0 : parseInt(sicore);
+			sicorePago = (isNaN(parseInt(sicorePago)))? 0 : parseInt(sicorePago);
 			sicoreSaldo = sicore - sicorePago;
 			
 			$('#sicoreSaldo').val(sicoreSaldo);
@@ -429,8 +429,8 @@ $stmt5->execute();
 		var ganancias = document.liquidacionF.ganancias.value;
 		var gananciasPago = document.liquidacionF.gananciasPago.value;
 		try{
-			ganancias = (isNaN(parseFloat(ganancias)))? 0 : parseFloat(ganancias);
-			gananciasPago = (isNaN(parseFloat(gananciasPago)))? 0 : parseFloat(gananciasPago);
+			ganancias = (isNaN(parseInt(ganancias)))? 0 : parseInt(ganancias);
+			gananciasPago = (isNaN(parseInt(gananciasPago)))? 0 : parseInt(gananciasPago);
 			gananciasSaldo = ganancias - gananciasPago;
 			
 			$('#gananciasSaldo').val(gananciasSaldo);
@@ -441,8 +441,8 @@ $stmt5->execute();
 		var autonomo = document.liquidacionF.autonomo.value;
 		var autonomoPago = document.liquidacionF.autonomoPago.value;
 		try{
-			autonomo = (isNaN(parseFloat(autonomo)))? 0 : parseFloat(autonomo);
-			autonomoPago = (isNaN(parseFloat(autonomoPago)))? 0 : parseFloat(autonomoPago);
+			autonomo = (isNaN(parseInt(autonomo)))? 0 : parseInt(autonomo);
+			autonomoPago = (isNaN(parseInt(autonomoPago)))? 0 : parseInt(autonomoPago);
 			autonomoSaldo = autonomo - autonomoPago;
 			
 			$('#autonomoSaldo').val(autonomoSaldo);
@@ -453,8 +453,8 @@ $stmt5->execute();
 		var caja = document.liquidacionF.caja.value;
 		var cajaPago = document.liquidacionF.cajaPago.value;
 		try{
-			caja = (isNaN(parseFloat(caja)))? 0 : parseFloat(caja);
-			cajaPago = (isNaN(parseFloat(cajaPago)))? 0 : parseFloat(cajaPago);
+			caja = (isNaN(parseInt(caja)))? 0 : parseInt(caja);
+			cajaPago = (isNaN(parseInt(cajaPago)))? 0 : parseInt(cajaPago);
 			cajaSaldo = caja - cajaPago;
 			
 			$('#cajaSaldo').val(cajaSaldo);
@@ -465,8 +465,8 @@ $stmt5->execute();
 		var aportes = document.liquidacionF.aportes.value;
 		var aportesPago = document.liquidacionF.aportesPago.value;
 		try{
-			aportes = (isNaN(parseFloat(aportes)))? 0 : parseFloat(aportes);
-			aportesPago = (isNaN(parseFloat(aportesPago)))? 0 : parseFloat(aportesPago);
+			aportes = (isNaN(parseInt(aportes)))? 0 : parseInt(aportes);
+			aportesPago = (isNaN(parseInt(aportesPago)))? 0 : parseInt(aportesPago);
 			aportesSaldo = aportes - aportesPago;
 			
 			$('#aportesSaldo').val(aportesSaldo);
@@ -477,8 +477,8 @@ $stmt5->execute();
 		var ley4035 = document.liquidacionF.ley4035.value;
 		var ley4035Pago = document.liquidacionF.ley4035Pago.value;
 		try{
-			ley4035 = (isNaN(parseFloat(ley4035)))? 0 : parseFloat(ley4035);
-			ley4035Pago = (isNaN(parseFloat(ley4035Pago)))? 0 : parseFloat(ley4035Pago);
+			ley4035 = (isNaN(parseInt(ley4035)))? 0 : parseInt(ley4035);
+			ley4035Pago = (isNaN(parseInt(ley4035Pago)))? 0 : parseInt(ley4035Pago);
 			ley4035Saldo = ley4035 - ley4035Pago;
 			
 			$('#ley4035Saldo').val(ley4035Saldo);
@@ -489,8 +489,8 @@ $stmt5->execute();
 		var cpceer = document.liquidacionF.cpceer.value;
 		var cpceerPago = document.liquidacionF.cpceerPago.value;
 		try{
-			cpceer = (isNaN(parseFloat(cpceer)))? 0 : parseFloat(cpceer);
-			cpceerPago = (isNaN(parseFloat(cpceerPago)))? 0 : parseFloat(cpceerPago);
+			cpceer = (isNaN(parseInt(cpceer)))? 0 : parseInt(cpceer);
+			cpceerPago = (isNaN(parseInt(cpceerPago)))? 0 : parseInt(cpceerPago);
 			cpceerSaldo = cpceer - cpceerPago;
 			
 			$('#cpceerSaldo').val(cpceerSaldo);
@@ -501,8 +501,8 @@ $stmt5->execute();
 		var matricula = document.liquidacionF.matricula.value;
 		var matriculaPago = document.liquidacionF.matriculaPago.value;
 		try{
-			matricula = (isNaN(parseFloat(matricula)))? 0 : parseFloat(matricula);
-			matriculaPago = (isNaN(parseFloat(matriculaPago)))? 0 : parseFloat(matriculaPago);
+			matricula = (isNaN(parseInt(matricula)))? 0 : parseInt(matricula);
+			matriculaPago = (isNaN(parseInt(matriculaPago)))? 0 : parseInt(matriculaPago);
 			matriculaSaldo = matricula - matriculaPago;
 			
 			$('#matriculaSaldo').val(matriculaSaldo);
@@ -513,8 +513,8 @@ $stmt5->execute();
 		var suss = document.liquidacionF.suss.value;
 		var sussPago = document.liquidacionF.sussPago.value;
 		try{
-			suss = (isNaN(parseFloat(suss)))? 0 : parseFloat(suss);
-			sussPago = (isNaN(parseFloat(sussPago)))? 0 : parseFloat(sussPago);
+			suss = (isNaN(parseInt(suss)))? 0 : parseInt(suss);
+			sussPago = (isNaN(parseInt(sussPago)))? 0 : parseInt(sussPago);
 			sussSaldo = suss - sussPago;
 			
 			$('#sussSaldo').val(sussSaldo);
@@ -525,8 +525,8 @@ $stmt5->execute();
 		var honorarios = document.liquidacionF.honorarios.value;
 		var honorariosPago = document.liquidacionF.honorariosPago.value;
 		try{
-			honorarios = (isNaN(parseFloat(honorarios)))? 0 : parseFloat(honorarios);
-			honorariosPago = (isNaN(parseFloat(honorariosPago)))? 0 : parseFloat(honorariosPago);
+			honorarios = (isNaN(parseInt(honorarios)))? 0 : parseInt(honorarios);
+			honorariosPago = (isNaN(parseInt(honorariosPago)))? 0 : parseInt(honorariosPago);
 			honorariosSaldo = honorarios - honorariosPago;
 			
 			$('#honorariosSaldo').val(honorariosSaldo);
@@ -557,21 +557,37 @@ $stmt5->execute();
 				success:function(r){	
 					data= jQuery.parseJSON( r );
 					$('#monotributo').val(data['monotributo']);
+					$('#monotributoSaldo').val(data['monotributo'])
 					$('#iva').val(data['iva']);
+					$('#ivaSaldo').val(data['iva']);
 					$('#autonomo').val(data['autonomo']);
+					$('#autonomoSaldo').val(data['autonomo']);
 					$('#caja').val(data['caja']);
+					$('#cajaSaldo').val(data['caja']);
 					$('#aportes').val(data['aportes']);
+					$('#aportesSaldo').val(data['aportes']);
 					$('#cpceer').val(data['cpceer']);
+					$('#cpceerSaldo').val(data['cpceer']);
 					$('#matricula').val(data['matricula']);
+					$('#matriculaSaldo').val(data['matricula']);
 					$('#suss').val(data['suss']);
+					$('#sussSaldo').val(data['suss']);
 					$('#ley4035').val(data['ley4035']);
+					$('#ley4035Saldo').val(data['ley4035']);
 					$('#honorarios').val(data['honorarios']);
+					$('#honorariosSaldo').val(data['honorarios']);
 					$('#ater').val(data['ater']);
+					$('#aterSaldo').val(data['ater']);
 					$('#municipalidad').val(data['municipalidad']);
+					$('#municipalidadSaldo').val(data['municipalidad']);
 					$('#sindicato').val(data['sindicato']);
+					$('#sindicatoSaldo').val(data['sindicato']);
 					$('#empleador').val(data['empleador']);
+					$('#empleadorSaldo').val(data['empleador']);
 					$('#sicore').val(data['sicore']);
+					$('#sicoreSaldo').val(data['sicore']);
 					$('#ganancias').val(data['ganancias']);
+					$('#gananciasSaldo').val(data['ganancias']);
 
 				}
 			})
@@ -604,7 +620,7 @@ $stmt5->execute();
 				data.forEach(function(data, index) { 
 					$('#idcl').val(data.id_cliente);	
  					$('#nombre').val(data.denominacion);
- 					total = parseFloat(total)+parseFloat(data.saldoIntegrar);
+ 					total = parseInt(total)+parseInt(data.saldoIntegrar);
 					 newRow =
 					"<tr>"												
 						+"<td>"+data.total+"</td>"				
@@ -660,7 +676,7 @@ $stmt5->execute();
 			
 					$('#idcl').val(data.id_cliente);
  			
- 					total = parseFloat(total)+parseFloat(data.saldoIntegrar);
+ 					total = parseInt(total)+parseInt(data.saldoIntegrar);
 					 newRow =
 					"<tr>"												
 						+"<td>"+data.total+"</td>"				
@@ -693,7 +709,10 @@ $stmt5->execute();
 
 
 <script type="text/javascript">
-	$(document).ready(function(){		
+	$(document).ready(function(){	
+
+
+
 		$('#id_cliente').change(function(){			
 		
 			$("#nombre").val("No se han cargado pagos");
@@ -713,7 +732,7 @@ $stmt5->execute();
 					$('#idcl').val(data.id_cliente);	
  					$('#nombre').val(data.denominacion);
  					$('#denominacionB').text(data.denominacion);
- 					total = parseFloat(total)+parseFloat(data.saldoIntegrar);
+ 					total = parseInt(total)+parseInt(data.saldoIntegrar);
  					if(data.total>0){
 					 newRow =
  					
@@ -775,7 +794,12 @@ $stmt5->execute();
 </script>
 
 <script type="text/javascript">
+	
+</script>
+
+<script type="text/javascript">
 	$('#btn_ssaldo').click(function(){
+		
 		vacios=validarFormVacio('liquidacion');
 			if(vacios>0){
 			alertify.alert("Debes llenar todos los campos");
@@ -788,10 +812,11 @@ $stmt5->execute();
 		data : dato,
 		url : "../procesos/pagos/cargarPagos.php",
 		success:function(r){
-			
+			alert(r);
 			if (r==1){
 				alertify.success("Pago cargado");
 			}else{
+				alert(r);
 				alertify.error("Falló la carga");
 			}
 		}
@@ -827,7 +852,7 @@ $stmt5->execute();
 					$('#denominacionB').text(data.denominacion);
 					$('#idcl').val(data.id_cliente);	
  					$('#nombre').val(data.denominacion);
- 					total = parseFloat(total)+parseFloat(data.saldoIntegrar);
+ 					total = parseInt(total)+parseInt(data.saldoIntegrar);
  					if(data.total>0){
 					 newRow =
  					
@@ -973,7 +998,7 @@ $stmt5->execute();
 					$('#id_pago').val(data.id_pago);
 					$('#idcl').val(data.id_cliente);
  			
- 					total = parseFloat(total)+parseFloat(data.saldoIntegrar);
+ 					total = parseInt(total)+parseInt(data.saldoIntegrar);
  					if(data.total>0){
 					 newRow =
  					
@@ -1035,6 +1060,11 @@ $stmt5->execute();
 	})
 </script>
 <script type="text/javascript">
+	$('#btn_pagar').click(function(){
+		alert("cosaos")
+	})
+</script>
+<script type="text/javascript">
 	function imprimir(){
 		
 		id_cliente = $('#id_cliente').val();		
@@ -1050,7 +1080,7 @@ $stmt5->execute();
 					},
 			success:function(r){	
 				if(r==1){
-					alert("algo");
+					
 				}
 				}
 

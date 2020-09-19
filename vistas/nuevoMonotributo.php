@@ -78,7 +78,7 @@ $dbh = $c->conexion();
 					$('#empleador')[0].reset();					
 					alertify.success("Ingresos brutos cargados");
 				}else{					
-					alert(r);
+					
 					alertify.error("No se pudo cargar");
 				}
 

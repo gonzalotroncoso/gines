@@ -1,12 +1,12 @@
 <?php
-	
-	
-
+		
 	require_once "../clases/Conexion.php";
-$count = 0;
+    require_once "../clases/clientes.php";
+
+    $count = 0;
 	$c = new conectar();
 	$dbh = $c->conexion();
-
+    $cliente = new clientes();
     include 'simplexlsx.class.php';
     $xlsx = new SimpleXLSX( 'gines.xlsx' );
     foreach ($xlsx->rows() as $fields) {
@@ -58,6 +58,7 @@ $count = 0;
     	$id_cliente = $id;
 
     	$estado = utf8_encode($fields[3]);
+        echo "ESTADO".$estado."<br>";
         echo ("TIPO DE PERSONA".$fields[4]);
         if($fields[4]=="Física"){
     	$tipo_persona = "fisica";
@@ -139,8 +140,13 @@ $count = 0;
     $id_condicion = $id_con; 
     	echo "el valor de afip es :".$afip."</br>";
     	if($afip=="Monotributista"){
-            $ingresos_brutos = utf8_encode($fields[22]); 
-            if($ingresos_brutos>0){
+            $ingresos_brutos = utf8_encode($fields[23]); 
+            $categoria = utf8_encode($fields[26]); 
+                //$a = $cliente->AsignarCategoria_Simplificado("A");
+              echo ($ingresos_brutos);
+
+
+            
     		
     		$stmt5=$dbh->prepare("INSERT INTO monotributo (id_condicion, ingresos_brutos, categoria, totalpagar, actividad) values (?,?,?,?,?)");
     		$stmt5->bindParam(1,$id_condicion);    		
@@ -150,58 +156,28 @@ $count = 0;
             $stmt5->bindParam(5,$actividad);
     		
     	   		
-    		   		
-    		if($ingresos_brutos<=138127.99){
-			$categoria = "A";
-			}elseif ($ingresos_brutos>138127.99 && $ingresos_brutos<=207191.98) {
-			$categoria = "B";
-			}elseif ($ingresos_brutos>207191.98 && $ingresos_brutos<= 276255.98) {
-			$categoria = "C";
-			}elseif ($ingresos_brutos>276255.98 && $ingresos_brutos<= 414383.98) {
-			$categoria = "D";
-			}elseif ($ingresos_brutos>414383.98 && $ingresos_brutos<= 552511.95) {
-			$categoria = "E";
-			}elseif ($ingresos_brutos>552511.95 && $ingresos_brutos<= 690639.95) {
-			$categoria = "F";
-			}elseif ($ingresos_brutos>690639.95 && $ingresos_brutos<= 828767.94) {
-			$categoria = "G";
-			}elseif ($ingresos_brutos>828767.94 && $ingresos_brutos<= 1151066.58) {
-			$categoria = "H";
-			}elseif ($ingresos_brutos>1151066.58 && $ingresos_brutos<= 1352503.24) {
-			$categoria = "I";
-			}elseif ($ingresos_brutos>1352503.24 && $ingresos_brutos<= 1553939.00) {
-			$categoria = "J";
-			}elseif ($ingresos_brutos>1553939.00 && $ingresos_brutos<= 1726599.88) {
-			$categoria = "K";
-			}else $categoria ="K";
+    		
 		  
 
-            if($ingresos_brutos>0){
-                $st = $dbh->prepare('SELECT * FROM tabla_monotributo where categoria =:categoria');
+                            $st = $dbh->prepare('SELECT * FROM tabla_monotributo where categoria =:categoria');
                 $st->bindValue(':categoria',$categoria,PDO::PARAM_STR);
                 $st->execute();
                 $tabla = $st->fetch();
                 echo ("SIPA: ".$tabla['sipa']."   IMPUESTO".$tabla['impuesto_bienes']."  OBRA SOCIAL".$tabla['obra_social']."</br>");
                 $totalpagar = $tabla['sipa']+$tabla['impuesto_bienes']+$tabla['obra_social'];
                 $actividad = "Bienes";
-            }
+            
 
              
                 
 
-            if ($stmt5->execute()){
-                echo "CATEGORIA:".$categoria."   "."TOTAL A PAGAR:".$totalpagar."</br>";
-            }else{
-                print_r($dbh->errorInfo());
-            }
+            if ($stmt5->execute()){               
+               
+
+                   
 			
 
-            ///////////////////////////////////////////////////////////////////////////////////////
-              
-
-
-
-            //////////////////////////////////////////////////////////////////////////////////////
+         
 			
 			
             if ($ingresos_brutos>0){
@@ -210,45 +186,59 @@ $count = 0;
                 $id_mono = $s->fetchcolumn();
 
                 $ingresos_mes = $ingresos_brutos/12;
-                for ($i=1; $i <13 ; $i++) {
-                $fecha =date("Y-$i-1");             
-    		    $stmt8 =$dbh->prepare("INSERT INTO monotributomensual (mes, monto, id_monotributo) values(?,?,?)");
-    			$stmt8->bindParam(1,$fecha);
-    			$stmt8->bindParam(2,$ingresos_mensual);
-    			$stmt8->bindParam(3,$id_monotributo);
+                $primer =3;
+                $j = 1;
+                for ($i=$primer; $i <(12+$primer) ; $i++) {
+                    if($i>12){
+                                  $fecha =date("Y-$j-1");             
+                $stmt8 =$dbh->prepare("INSERT INTO monotributomensual (mes, monto, id_monotributo) values(?,?,?)");
+                $stmt8->bindParam(1,$fecha);
+                $stmt8->bindParam(2,$ingresos_mensual);
+                $stmt8->bindParam(3,$id_monotributo);
 
-    			$id_monotributo = $id_mono;
-    			$ingresos_mensual = $ingresos_mes;    						
-				$fecha_mono = $fecha;
+                $id_monotributo = $id_mono;
+                $ingresos_mensual = $ingresos_mes;                          
+                $fecha_mono = $fecha;
 
-				if ($stmt8->execute()){
-					echo "inserto fecha".$fecha_mono." ".$ingresos_mensual;
-				}else{
-					echo ($dbh->errorInfo());
-				}
+                if ($stmt8->execute()){
+                    echo "inserto fecha".$fecha_mono." ".$ingresos_mensual;
+                }else{
+                    echo ($dbh->errorInfo());
+                }
+                $j++;
+                    }else{
+                         $fecha =date("2019-$i-1");             
+                $stmt8 =$dbh->prepare("INSERT INTO monotributomensual (mes, monto, id_monotributo) values(?,?,?)");
+                $stmt8->bindParam(1,$fecha);
+                $stmt8->bindParam(2,$ingresos_mensual);
+                $stmt8->bindParam(3,$id_monotributo);
+
+                $id_monotributo = $id_mono;
+                $ingresos_mensual = $ingresos_mes;                          
+                $fecha_mono = $fecha;
+
+                if ($stmt8->execute()){
+                    echo "inserto fecha".$fecha_mono." ".$ingresos_mensual;
+                }else{
+                    echo ($dbh->errorInfo());
+                }
+
+                    }
+               
 
     		  }
               }
 
-          }else{
-            $stmt5=$dbh->prepare("INSERT INTO monotributo (id_condicion, ingresos_brutos, actividad, adicional) values (?,?,?,?)");
-            $stmt5->bindParam(1,$id_condicion);         
-            $stmt5->bindParam(2,$ingresos_brutos);
-            $stmt5->bindParam(3,$actividad);
-            $stmt5->bindParam(4,$adicional);
-            
-            $id_condicion = $id_con;
-            $ingresos_brutos = 0;
-            $actividad = "Bienes";
-            $adicional = 1;
-
-            $stmt5->execute();
-
           }
-
-    		}
-    	
 		}
-        
+
     }
 
+    
+    }
+
+   
+
+?>
+
+       

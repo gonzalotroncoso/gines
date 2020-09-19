@@ -1118,7 +1118,7 @@ if(contador<2){
           alertify.success("Cliente modificado con exito");
         
         }else{     
-        alert(r);             
+                
           alertify.error("No se pudo modificar cliente");
         }
 

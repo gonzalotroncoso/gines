@@ -53,17 +53,7 @@ public function tablaLiquidacion($id){
 	$cliente = $stmt->fetch();
 	$id_condicion = $id;
 	$montopg = self::cargarPagoAter($id_condicion);
-$pagops =5;
-		$query ="SELECT * from pago_simplificado ps where ps.id_condicion = :id";
-		$st = $dbh->prepare($query);
-		$st->bindValue(':id', $cliente['id_condicion'], PDO::PARAM_INT);
-		$st->execute();		
-		$ps = $st->fetch();
-		if($ps['montoSimplificado']!= null){			
-			$pagops=$ps['montoSimplificado'];
-		}else{
-			$pagops = 0;
-		}
+	$pagops =0;	
 
 	if ($cliente['tipo_persona']=='fisica'){
 		$cuit = $cliente['cuit'];

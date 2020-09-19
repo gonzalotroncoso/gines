@@ -21,7 +21,7 @@ $stmt1->execute();
 </head>
 <body>
 	<div class="container">
-	<div class="well">	<center><b>	<h1>MONOTRIBUTISTAS</h1></b></center></div>
+	<div class="well">	<center><b>	<h3>Monotributo</h3></b></center></div>
 		<div class="row">
 			<div class="col-sm-12">
 				         <select class="form-control input-sm" id="id_cliente" name="id_cliente">
@@ -44,13 +44,14 @@ $stmt1->execute();
 		<th>Nro. cliente</th>
 		<th>Denominación</th>
 		<th>Categoria</th>
+		<th>C. Sugerida</th>
+		<th>observacion</th>
 		<th>Actividad</th>
 		<th>Adicionales</th>	
-		<th>Ing. Brutos</th>				
-		<th>SIPA</th>
-		<th>Obra Social</th>
+		<th>Ing. Brutos</th>		
 		<th>Imp. servicio</th>
-		<th>Total</th>		
+		<th>Total</th>
+				
 		<th>Pago Mes</th>
 
 	
@@ -66,26 +67,29 @@ $stmt1->execute();
 		 ?>
 	<tr>
 		<td><?php echo $unaFila['nro_cliente'] ?></td>
-		<td><?php echo $unaFila['denominacion'] ?></td>
+		<td><?php echo utf8_decode($unaFila['denominacion']) ?></td>
 		<td><?php echo $unaFila['categoria']?></td>
+			<td><?php echo $unaFila['asigna']?></td>
+		<td><?php echo $unaFila['observacion']?></td>
 		<?php if ($unaFila['actividad'] =="Bienes"){ ?>
-		<td>Venta de bienes</td>	
+		<td>Bienes</td>	
 		<?php }
 	 	if ($unaFila['actividad'] =="Servicios"){ ?>
-	 		<td>Venta de bienes</td>	
+	 		<td>Servicios</td>	
 	 	<?php }
 	 	 if ($unaFila['actividad'] =="A-S"){ ?>
 	 	 <td>Ambas - Principal Servicio</td>		
 	 	<?php }
 	 	  if ($unaFila['actividad'] =="A-B"){ ?>
-	 	  	<td>Ambas - Principal Servicio</td>		
+	 	  	<td>Ambas - Principal Bienes</td>		
 	 	  <?php } ?>
 		<td><?php echo $unaFila['adicional']?></td>
 		<td><?php echo $unaFila['ingresos_brutos']?></td>
-		<td><?php echo $tabla['sipa']?></td>
-		<td><?php echo $tabla['obra_social']?></td>
+	
 		<td><?php echo $tabla['impuesto_servicio']?></td>
 		<td><?php echo $unaFila['totalpagar']?></td>
+
+
 	<td>
 				<span class="btn btn-success btn-xs"data-toggle="modal" data-target="#actualizaCliente" onclick="agregaDatos('<?php echo $unaFila['id_monotributo'] ?>')">
 				<span class="glyphicon glyphicon-plus"></span>
@@ -197,13 +201,14 @@ $stmt1->execute();
 
 				 newRow = "<tr>"+	
 							"<td>"+data.nro_cliente+"</td>"+
-							"<td>"+data.denominacion+"</td>"+
+							"<td>"+utf8to16(data.denominacion)+"</td>"+
 							"<td>"+data.categoria+"</td>"+
+							"<td>"+data.asigna+"</td>"+
+							"<td>"+data.observacion+"</td>"+
 							"<td>"+data.actividad+"</td>"+
 							"<td>"+data.adicional+"</td>"+
 							"<td>"+data.ingresos_brutos+"</td>"+							
-							"<td>"+data.sipa+"</td>"+
-							"<td>"+data.obra_social+"</td>"+							
+														
 							"<td>"+impuesto+"</td>"+
 							"<td>"+data.totalpagar+"</td>"+
 				"<td>"+
@@ -225,7 +230,7 @@ $stmt1->execute();
 			data:'id='+id,
 			url:'../procesos/clientes/dataMono.php',
 			success:function(r){
-				console.log(r);
+				
 				data = jQuery.parseJSON(r);
 				var newRow;
 				var impuesto;
@@ -238,14 +243,15 @@ $stmt1->execute();
 				 $("#tablaCliente tbody").html("");
 				 newRow = "<tr>"+	
 							"<td>"+data.nro_cliente+"</td>"+
-							"<td>"+data.denominacion+"</td>"+
+							"<td>"+utf8to16(data.denominacion)+"</td>"+
 							"<td>"+data.categoria+"</td>"+
+							"<td>"+data.asigna+"</td>"+
+							"<td>"+data.observacion+"</td>"+
 							"<td>"+data.actividad+"</td>"+
 							"<td>"+data.adicional+"</td>"+
 							"<td>"+data.ingresos_brutos+"</td>"+
 							
-							"<td>"+data.sipa+"</td>"+
-							"<td>"+data.obra_social+"</td>"+							
+														
 							"<td>"+impuesto+"</td>"+
 							"<td>"+data.totalpagar+"</td>"+
 							"<td>"+
@@ -260,7 +266,41 @@ $stmt1->execute();
 	}
 })
 </script>
+<script type="text/javascript">
+	function utf8to16(str) {
+    var out, i, len, c;
+    var char2, char3;
 
+    out = "";
+    len = str.length;
+    i = 0;
+    while(i < len) {
+    c = str.charCodeAt(i++);
+    switch(c >> 4)
+    { 
+      case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
+        // 0xxxxxxx
+        out += str.charAt(i-1);
+        break;
+      case 12: case 13:
+        // 110x xxxx   10xx xxxx
+        char2 = str.charCodeAt(i++);
+        out += String.fromCharCode(((c & 0x1F) << 6) | (char2 & 0x3F));
+        break;
+      case 14:
+        // 1110 xxxx  10xx xxxx  10xx xxxx
+        char2 = str.charCodeAt(i++);
+        char3 = str.charCodeAt(i++);
+        out += String.fromCharCode(((c & 0x0F) << 12) |
+                       ((char2 & 0x3F) << 6) |
+                       ((char3 & 0x3F) << 0));
+        break;
+    }
+    }
+
+    return out;
+}
+</script>
 
 <?php 
 }else{

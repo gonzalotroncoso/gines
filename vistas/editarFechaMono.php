@@ -38,7 +38,7 @@ $dbh = $c->conexion();
 								while ($cliente = $stmt->fetch()):
 								            ?>
 	              
-								<option value="<?php echo $cliente['id_cliente'] ?>"><?php echo $cliente['denominacion']?></option>
+								<option value="<?php echo $cliente['id_cliente'] ?>"><?php echo utf8_decode( $cliente['denominacion'])?></option>
 								<?php endwhile; ?>
 							</select> 
 						</div>
@@ -147,10 +147,10 @@ $dbh = $c->conexion();
 			url:"../procesos/clientes/modificarMonto.php",					
 			success:function(r){				
 				if(r==1){				
-					alert(r)						
+									
 					alertify.success("Monto Modificado");
 				}else{	
-				alert(r)				;
+						;
 					alertify.error("Monto no modificado");
 				}
 

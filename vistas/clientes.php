@@ -9,14 +9,15 @@ $c = new conectar();
 $dbh = $c->conexion();
 $stmt=$dbh->prepare("SELECT * FROM Clientes c INNER JOIN datosfiscales d  on c.id_cliente = d.id_cliente");
 $stmt->execute();
-
+header('Content-Type: text/html; charset=utf-8');
 
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8"/>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
 <title>Inicio</title>
 	<?php require_once "menu.php" ?>
 </head>
@@ -89,7 +90,6 @@ $stmt->execute();
 </div>
 <hr/>
 <?php } ?>
-
 
 
  

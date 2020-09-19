@@ -106,6 +106,26 @@ $dbh = $c->conexion();
 	</div>
 </div>
 <hr/>
+<div class="row">
+	<div class="col-sm-12">
+		<label class="col-sm-4"></label>
+		<div class="col-sm-4">
+			<input type="" id="ib" name="" hidden="true">
+		</div>
+	</div>
+</div>
+<hr/>
+ <div  class="row">
+ 	<div class="col-sm-12">
+ 		<label class="col-sm-4">Calcular Ingresos Bruto</label>
+ 		<input type="date" id="inicio" name="">
+ 		<input type="date"id="fin" name="">
+ 		  <button type="button" class="btn btn-success"  id="btn_calcula" >calcular</button>
+ 	
+ 		<input type="text" readonly="true" id="estimado" name="">
+ 	</div>
+ </div>
+<hr/>
 	
 
 		<div class="row">
@@ -219,7 +239,7 @@ $dbh = $c->conexion();
 </body>
 </html>
 <script type="text/javascript">	
-$(document).ready(function(){		
+		
 		$('#id_cliente').change(function(){			
 			$.ajax({
 				type:"POST",
@@ -301,9 +321,18 @@ $(document).ready(function(){
 				}
 
 			});
+			$.ajax({
+				type:"POST",
+				data:"idcliente="+ $('#id_cliente').val(),
+				url:"../procesos/liquidacion/ingresosbruto.php",	
+				success:function(r){					
+					$('#ib').val(r);
+				}
+
+			})
 
 		});	
-	});	
+		
 
 
 </script>
@@ -414,6 +443,15 @@ $(document).ready(function(){
 		
 			}
 		})
+		$.ajax({
+				type:"POST",
+				data:"idcliente="+ $('#id_cliente').val(),
+				url:"../procesos/liquidacion/ingresosbruto.php",	
+				success:function(r){					
+					$('#ib').val(r);
+				}
+
+			})
 	}
 </script>
 <script type="text/javascript">
@@ -709,6 +747,28 @@ $(document).ready(function(){
 	$('#tablaLiquidacionLoad').load("Liquidacion/tablaliquidacion.php");
 	$('#tablames').load("Liquidacion/tablames.php");
 })
+</script>
+
+<script type="text/javascript">
+	$('#btn_calcula').click(function(){
+		var inicio = $('#inicio').val();
+		var fin = $('#fin').val();
+		var id = $('#id_cliente').val();
+		$.ajax({
+			method:"POST",
+			data:{"inicio":inicio,
+					"fin":fin,
+					"id":id
+					},
+			url:"../procesos/liquidacion/calcular.php",
+			success:function(r){
+				$('#estimado').val(r);
+			}
+
+		})
+
+
+	})
 </script>
 
 <?php 
